@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Full Court — 3D Basketball</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- WebGL canvas -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- ================= LOADING ================= -->
+  <div id="loading" class="overlay">
+    <div class="loading-inner">
+      <div class="logo-mark">FULL&nbsp;COURT</div>
+      <div class="logo-sub">3D BASKETBALL</div>
+      <div class="loading-bar"><div id="loading-fill"></div></div>
+      <div id="loading-status">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN MENU ================= -->
+  <div id="menu" class="overlay hidden">
+    <div class="menu-panel">
+      <div class="menu-title">FULL&nbsp;COURT</div>
+      <div class="menu-tag">A 3D basketball game</div>
+
+      <div class="matchup">
+        <button id="home-team" class="team-btn"></button>
+        <div class="vs">VS</div>
+        <button id="away-team" class="team-btn"></button>
+      </div>
+
+      <div class="menu-rows">
+        <div class="menu-row">
+          <span>Quarter Length</span>
+          <div class="seg" id="opt-quarter">
+            <button data-val="120">2:00</button>
+            <button data-val="300" class="active">5:00</button>
+            <button data-val="720">12:00</button>
+          </div>
+        </div>
+        <div class="menu-row">
+          <span>Difficulty</span>
+          <div class="seg" id="opt-difficulty">
+            <button data-val="rookie">Rookie</button>
+            <button data-val="pro" class="active">Pro</button>
+            <button data-val="allstar">All-Star</button>
+          </div>
+        </div>
+        <div class="menu-row">
+          <span>Camera</span>
+          <div class="seg" id="opt-camera">
+            <button data-val="broadcast" class="active">Broadcast</button>
+            <button data-val="follow">Follow</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="tipoff-btn" class="cta">TIP OFF</button>
+      <button id="controls-btn" class="ghost">Controls</button>
+    </div>
+  </div>
+
+  <!-- ================= CONTROLS HELP ================= -->
+  <div id="controls-help" class="overlay hidden">
+    <div class="menu-panel">
+      <div class="menu-title small">CONTROLS</div>
+      <div class="controls-grid" id="controls-grid"></div>
+      <button id="controls-close" class="cta">Back</button>
+    </div>
+  </div>
+
+  <!-- ================= IN-GAME HUD ================= -->
+  <div id="hud" class="hidden">
+    <!-- Broadcast scorebug -->
+    <div id="scorebug">
+      <div class="sb-team sb-home">
+        <span class="sb-abbr" id="sb-home-abbr">HOME</span>
+        <span class="sb-score" id="sb-home-score">0</span>
+      </div>
+      <div class="sb-center">
+        <div class="sb-clock" id="sb-clock">5:00</div>
+        <div class="sb-quarter" id="sb-quarter">Q1</div>
+      </div>
+      <div class="sb-team sb-away">
+        <span class="sb-score" id="sb-away-score">0</span>
+        <span class="sb-abbr" id="sb-away-abbr">AWAY</span>
+      </div>
+      <div class="sb-shotclock" id="sb-shotclock">24</div>
+    </div>
+
+    <!-- Center announcement (e.g. "3 POINTS!", "TIP OFF") -->
+    <div id="announce"></div>
+
+    <!-- Shot meter -->
+    <div id="shot-meter" class="hidden">
+      <div class="meter-track">
+        <div class="meter-perfect" id="meter-perfect"></div>
+        <div class="meter-fill" id="meter-fill"></div>
+        <div class="meter-marker" id="meter-marker"></div>
+      </div>
+      <div class="meter-label">RELEASE</div>
+    </div>
+
+    <!-- Possession / control hint -->
+    <div id="hint-bar"></div>
+
+    <!-- On-screen touch controls (mobile) -->
+    <div id="touch-controls" class="hidden">
+      <div id="joystick"><div id="joystick-knob"></div></div>
+      <div id="action-buttons">
+        <button class="touch-btn" data-act="shoot">SHOOT</button>
+        <button class="touch-btn" data-act="pass">PASS</button>
+        <button class="touch-btn" data-act="sprint">SPRINT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAUSE ================= -->
+  <div id="pause" class="overlay hidden">
+    <div class="menu-panel">
+      <div class="menu-title small">PAUSED</div>
+      <button id="resume-btn" class="cta">Resume</button>
+      <button id="quit-btn" class="ghost">Quit to Menu</button>
+    </div>
+  </div>
+
+  <!-- ================= FINAL ================= -->
+  <div id="final" class="overlay hidden">
+    <div class="menu-panel">
+      <div class="menu-title small">FINAL</div>
+      <div id="final-score"></div>
+      <div id="final-winner"></div>
+      <button id="rematch-btn" class="cta">Rematch</button>
+      <button id="final-menu-btn" class="ghost">Main Menu</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
