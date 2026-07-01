@@ -55,12 +55,17 @@ export class PlayerController {
     if (moving) dir.normalize();
 
     // ------------- shot in progress locks movement -------------
-    if (this._shot) { this._updateShot(dt, gs, p); return; }
+    // Bind the shot to its shooter: after release, control auto-switches to
+    // another player — don't drive the follow-through pose onto them.
+    if (this._shot) {
+      if (this._shot.shooter === p) { this._updateShot(dt, gs, p); return; }
+      this._shot = null;
+    }
 
     if (hasBall) {
       // start a shot
       if (input.pressed('shoot')) {
-        this._shot = { phase: 'charge', t: 0, quality: 0, launched: false };
+        this._shot = { phase: 'charge', t: 0, quality: 0, launched: false, shooter: p };
         const ps = PERFECT_CENTER - SHOOTING.perfectWindow;
         const pe = PERFECT_CENTER + SHOOTING.perfectWindow;
         gs.w.hud.showMeter(ps, pe);

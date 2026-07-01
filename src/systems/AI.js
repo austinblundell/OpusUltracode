@@ -19,6 +19,9 @@ export class AI {
       if (phase === 'final' || phase === 'break' || phase === 'freeze') { this._idle(p); continue; }
       if (phase === 'tipoff') { this._tipoff(p, gs, dt); continue; }
       const ball = gs.ball;
+      // Drop any stale shot windup the moment this player isn't holding the
+      // ball, so a strip/turnover can't fire an involuntary shot on re-catch.
+      if (ball.holder !== p && p._aiShot) p._aiShot = null;
       if (ball.state !== 'held') { this._loose(p, gs, dt); continue; }
       if (ball.holder === p) this._ballHandler(p, gs, dt);
       else if (p.teamKey === gs.possession) this._offBall(p, gs, dt);
